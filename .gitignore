@@ -15,6 +15,9 @@ obj/
 ## VS Code
 .vscode/
 
+## local env files
+.env
+
 ## Logs
 *.log
 
