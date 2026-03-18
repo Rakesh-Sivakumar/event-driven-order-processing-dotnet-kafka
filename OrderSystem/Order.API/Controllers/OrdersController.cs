@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Order.API.Data;
 using Order.API.Models;
+using Order.API.Services;
+using Shared.Contracts;
 
 namespace Order.API.Controllers
 {
@@ -18,12 +20,21 @@ namespace Order.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(OrderEntity order)
+        public async Task<IActionResult> CreateOrder(OrderEntity order, [FromServices] KafkaProducer producer)
         {
             order.Status = "Created";
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
+
+            var eventMessage = new OrderCreatedEvent
+            {
+                OrderId = order.Id,
+                ProductName = order.ProductName,
+                Quantity = order.Quantity
+            };
+
+            await producer.ProducerAsync("orders", eventMessage);
 
             return Ok(order);
         }

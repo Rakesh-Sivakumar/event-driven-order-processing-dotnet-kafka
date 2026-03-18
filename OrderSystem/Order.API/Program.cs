@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Order.API.Data;
+using Order.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<OrderDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton<KafkaProducer>();
 
 var app = builder.Build();
 
