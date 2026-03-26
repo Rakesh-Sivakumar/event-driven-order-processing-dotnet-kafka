@@ -1,9 +1,10 @@
 ﻿using Confluent.Kafka;
+using Order.Application.Interfaces;
 using System.Text.Json;
 
 namespace Order.Infrastructure.Messaging
 {
-    public class KafkaProducer
+    public class KafkaProducer : IMessageProducer
     {
         private readonly ProducerConfig _config;
 

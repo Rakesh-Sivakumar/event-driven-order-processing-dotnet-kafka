@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Order.Application.Interfaces;
+using Order.Application.Services;
 using Order.Infrastructure.Caching;
 using Order.Infrastructure.Data;
 using Order.Infrastructure.Messaging;
@@ -23,6 +25,10 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddScoped<IMessageProducer, KafkaProducer>();
 builder.Services.AddSingleton<KafkaProducer>();
 builder.Services.AddSingleton<RedisService>();
 

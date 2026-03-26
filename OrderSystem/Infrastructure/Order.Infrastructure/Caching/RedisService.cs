@@ -1,8 +1,9 @@
-﻿using StackExchange.Redis;
+﻿using Order.Application.Interfaces;
+using StackExchange.Redis;
 
 namespace Order.Infrastructure.Caching
 {
-    public class RedisService
+    public class RedisService : IRedisService
     {
         private readonly IDatabase _db;
 

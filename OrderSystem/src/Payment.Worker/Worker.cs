@@ -83,7 +83,7 @@ namespace Payment.Worker
                         EventId = Guid.NewGuid().ToString(),
                         OrderId = orderEvent.OrderId,
                         ProductName = orderEvent.ProductName,
-                        Quantity =  orderEvent.Quantity,
+                        Quantity = orderEvent.Quantity,
                         Status = "Paid"
                     };
 

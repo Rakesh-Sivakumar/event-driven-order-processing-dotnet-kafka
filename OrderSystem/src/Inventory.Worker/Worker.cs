@@ -57,14 +57,14 @@ namespace Inventory.Worker
                     // IDEMPOTENCY CHECK
                     var checkCmd = new SqlCommand("SELECT COUNT(1) FROM ProcessedEvents WHERE EventId = @EventId", connection);
                     checkCmd.Parameters.AddWithValue("@EventId", paymentEvent.EventId);
-                        
-                        var exist = (int)await checkCmd.ExecuteScalarAsync();
 
-                        if (exist > 0)
-                        {
-                            _logger.LogInformation("Event already processed. Skipping...");
-                            continue;
-                        }
+                    var exist = (int)await checkCmd.ExecuteScalarAsync();
+
+                    if (exist > 0)
+                    {
+                        _logger.LogInformation("Event already processed. Skipping...");
+                        continue;
+                    }
 
                     var command = new SqlCommand(
                             "UPDATE Inventory SET Stock = Stock - @Qty WHERE ProductName = @Name", connection);
@@ -114,13 +114,13 @@ namespace Inventory.Worker
                         insertCmd.Parameters.AddWithValue("@EventId", paymentEvent.EventId);
                         await insertCmd.ExecuteNonQueryAsync(stoppingToken);
                         _logger.LogInformation("Event recorded as processed");
-                    }      
+                    }
                 }
                 catch (ConsumeException ex)
                 {
                     _logger.LogError($"KafkaError: {ex.Error.Reason}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _logger.LogWarning($"General Error: {ex.Message}");
                 }

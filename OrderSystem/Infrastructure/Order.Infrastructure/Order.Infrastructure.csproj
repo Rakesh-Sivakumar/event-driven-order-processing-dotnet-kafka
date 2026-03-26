@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Messaging\" />
     <Folder Include="Caching\" />
-    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Order.Application\Order.Application.csproj" />
     <ProjectReference Include="..\..\Core\Order.Domain\Order.Domain.csproj" />
   </ItemGroup>
 
